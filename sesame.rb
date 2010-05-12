@@ -46,8 +46,8 @@ module Sesame
       xml =  Nokogiri::XML.parse(request(req).body)
       res = Hash.new
       xml.xpath('//xmlns:result').each do |result|
-        prefix = result.xpath('//xmlns:binding[@name="prefix"]/xmlns:literal')[0].content
-        namespc = result.xpath('//xmlns:binding[@name="namespace"]/xmlns:literal')[0].content
+        prefix = result.xpath('.//xmlns:binding[@name="prefix"]/xmlns:literal')[0].content
+        namespc = result.xpath('.//xmlns:binding[@name="namespace"]/xmlns:literal')[0].content
         res[prefix] = namespc
       end
       return res
