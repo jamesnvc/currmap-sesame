@@ -34,25 +34,30 @@ describe Sesame::Server do
   end
 
   it "should run a SeRQL query" do
-    pending "Get base schema accessible"
     query = <<EOF
 SELECT C
 FROM {C} rdf:type {base:Course}
 USING NAMESPACE base = <file://schema.xml#>
 EOF
     res = @serv.select(query, "serql")
+    res.keys.should == ["C"]
+    res["C"].length.should == 1000
+    res
   end
 
   it "should run a SPARQL query" do
-    pending "Get base schema accessible"
     query = <<EOF
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX base: <file://schema.xml>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX base:<file://schema.xml#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
 SELECT ?x
 WHERE
 { ?x rdf:type base:Course }
 EOF
     res =  @serv.select(query, "sparql")
+    res.keys.should == ["x"]
+    res["x"].length.should == 1000
   end
 
 end

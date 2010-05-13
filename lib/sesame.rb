@@ -6,6 +6,8 @@ require 'nokogiri'
 module Sesame
 
   class Server
+    attr_reader :uri, :repo
+    
     def initialize(host, port, sesamedir, repo, user, pass, options=nil)
       @host = host
       @port = port
@@ -23,9 +25,19 @@ module Sesame
       query_params = params.collect { |k,v| "#{k}=#{URI.escape(v.to_s)}" }.
         reverse.join '&'
       req = Net::HTTP::Get.new("#{@uri.path}/#{@repo}?#{query_params}",
-                               {'Accept' => 'application/rdf+xml' })
+                               {'Accept' => 'application/sparql-results+xml' })
       req.basic_auth @user, @pass
-      return request(req).body
+      xml = Nokogiri::XML.parse(request(req).body)
+      res = Hash.new
+      # Get variables from query
+      xml.xpath('//xmlns:head/xmlns:variable').each do |var|
+        res[var['name']] = Array.new
+      end
+      # Populate result hash by variable
+      xml.xpath('//xmlns:result/xmlns:binding').each do |binding|
+        res[binding['name']] << (binding / 'uri')[0].content
+      end
+      return res
     end
     
     def list_repos
