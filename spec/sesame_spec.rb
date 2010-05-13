@@ -34,6 +34,7 @@ describe Sesame::Server do
   end
 
   it "should run a SeRQL query" do
+    pending "Get base schema accessible"
     query = <<EOF
 SELECT C
 FROM {C} rdf:type {base:Course}
@@ -43,6 +44,7 @@ EOF
   end
 
   it "should run a SPARQL query" do
+    pending "Get base schema accessible"
     query = <<EOF
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX base: <file://schema.xml>
