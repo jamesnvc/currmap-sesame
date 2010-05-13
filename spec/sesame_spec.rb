@@ -1,4 +1,4 @@
-require 'lib/sesame'
+require File.expand_path(File.dirname(__FILE) + '/spec_helper')
 require 'rubygems'
 require 'parseconfig'
 
@@ -45,15 +45,8 @@ def list_namespaces_test
   puts serv.list_namespaces("CurrMap").inspect
 end
 
-if __FILE__ == $0
-  tests = [ "select_serql", "select_sparql", "list_repos", "list_namespaces" ]
-  tests.each do |t|
-    puts "Running #{t} test"
-    begin
-      self.send("#{t}_test")
-    rescue
-      puts "*** Failed #{t} test"
-    end
+describe "Sesame::Server" do
+  it "gets a list of repos" do
+    
   end
 end
-
