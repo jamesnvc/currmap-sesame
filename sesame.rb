@@ -33,8 +33,7 @@ module Sesame
                                {'Accept' => "application/sparql-results+xml" })
       xml = Nokogiri::XML.parse(request(req).body)
       res = Array.new
-      xml.xpath('//xmlns:binding[@name="id"]/xmlns:literal',
-                xml.root.namespaces ).each do |repo|
+      xml.xpath('//xmlns:binding[@name="id"]/xmlns:literal').each do |repo|
         res << repo.content
       end
       return res
