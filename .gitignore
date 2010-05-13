@@ -3,3 +3,4 @@ doc
 Manifest
 spec/tests-config
 *.gemspec
+coverage
