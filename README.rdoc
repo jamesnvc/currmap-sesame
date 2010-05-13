@@ -2,6 +2,10 @@
 
   This is a simple object mapping system for a Sesame triple store database.
 
+  Although it aims to be generally useful, it is designed specifically for use
+  with the CurrMap project, and hence there may be some manner of coupling to
+  the aforementioned. 
+
 
 
    
