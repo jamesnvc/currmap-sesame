@@ -4,7 +4,16 @@
 
   Although it aims to be generally useful, it is designed specifically for use
   with the CurrMap project, and hence there may be some manner of coupling to
-  the aforementioned. 
+  the aforementioned.
+
+== Testing
+
+  To run the tests, you'll have to create a file in the "spec" directory named
+  tests-config that specificies the host, port, sesame directory, repository,
+  username, and password used to access the test server.
+
+  You'll also need to completely change the test results to be what you want.
+  Like I said, pretty tightly coupled.  Suck it.
 
 
 

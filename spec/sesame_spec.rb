@@ -2,16 +2,6 @@ require File.expand_path(File.dirname(__FILE) + '/spec_helper')
 require 'rubygems'
 require 'parseconfig'
 
-def new_test_serv
-  config = ParseConfig.new "#{File.dirname(__FILE__)}/tests-config"
-  user = config.get_value('username')
-  pass = config.get_value('password')
-  puts "username = #{user}"
-  puts "password = #{pass}"
-  serv = Sesame::Server.new("engsci.utoronto.ca", 8080, "openrdf-sesame",
-                            "CurrMap", user, pass)
-  return serv
-end
 
 def select_serql_test
   serv = new_test_serv
@@ -35,18 +25,34 @@ EOF
   puts serv.select(quer, "sparql")
 end
 
-def list_repos_test
-  serv = new_test_serv
-  puts serv.list_repos
-end
+describe Sesame::Server do
 
-def list_namespaces_test
-  serv = new_test_serv
-  puts serv.list_namespaces("CurrMap").inspect
-end
-
-describe "Sesame::Server" do
-  it "gets a list of repos" do
-    
+  before :all do
+    config = ParseConfig.new "#{File.dirname(__FILE__)}/tests-config"
+    @host = config.get_value('host')
+    @port = config.get_value('port').to_i
+    @sesame_dir = config.get_value('sesame_dir')
+    @repo = config.get_value('repo')
+    @user = config.get_value('username')
+    @pass = config.get_value('password')
   end
+  
+  before :each do
+    @serv = Sesame::Server.new(@host, @port, @sesame_dir, @repo, @user, @pass)
+  end
+  
+  it "gets a list of repos" do
+    repos = @serv.list_repos
+    repos.should == [ "SYSTEM", "CurrMap" ]
+  end
+
+  it "gets a list of all namespaces" do namespaces = @serv.list_namespaces
+    "CurrMap" namespaces.should == {
+      "rdfs"=>"http://www.w3.org/2000/01/rdf-schema#",
+      "xsd"=>"http://www.w3.org/2001/XMLSchema#",
+      "rdf"=>"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "base"=>"file://schema.xml#"
+    }
+  end
+
 end
