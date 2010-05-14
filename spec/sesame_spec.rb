@@ -5,13 +5,17 @@ require 'parseconfig'
 describe Sesame::Server do
 
   before :all do
-    config = ParseConfig.new "#{File.dirname(__FILE__)}/tests-config"
-    @host = config.get_value('host')
-    @port = config.get_value('port').to_i
-    @sesame_dir = config.get_value('sesame_dir')
-    @repo = config.get_value('repo')
-    @user = config.get_value('username')
-    @pass = config.get_value('password')
+    begin
+      config = ParseConfig.new "#{File.dirname(__FILE__)}/tests-config"
+      @host = config.get_value('host')
+      @port = config.get_value('port').to_i
+      @sesame_dir = config.get_value('sesame_dir')
+      @repo = config.get_value('repo')
+      @user = config.get_value('username')
+      @pass = config.get_value('password')
+    rescue Errno::EACCES
+      puts "Unable to open #{File.dirname(__FILE__)}/tests-config"
+    end
   end
   
   before :each do
