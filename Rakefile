@@ -12,6 +12,7 @@ begin
     gem.authors = ["James N. V. Cash"]
     gem.add_dependency 'nokogiri', ">= 0"
     gem.add_development_dependency 'rspec', '>= 0'
+    gem.add_development_dependency 'parseconfig', '>= 0'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
